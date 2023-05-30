@@ -1,0 +1,203 @@
+<!DOCTYPE HTML>
+
+<html lang = "en-US">
+	<head>
+        <meta charset = "UTF-8">
+		<title>Weather Forecast</title>
+		<!-- <link rel="icon" type="image/x-icon" href="images/favicon.ico" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> 
+		<link rel="stylesheet" href="home.css" />
+        <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Exo 2">
+          <!-- <script src="require.js"></script> -->
+	</head>
+    <!-- <body onload= "loadSearchData()"> -->
+    <body>
+
+        <div class = "container" id = "searchBarDiv">
+            <!-- <script src = "searchBar.js"></script> -->
+            <div class = "form-container">
+                <form class="form">
+                    <img id = 'searchicon' src="images/search.png"/>
+                    <input id="searchbar" type="text" class="input" placeholder=" search..."/>
+                    <button id = "searchbutton" onclick="search()"> enter </button>
+                    <div id = "list"></div>
+                </form>
+            </div>
+
+            <div class="results-container">
+                <ul class = "results-list" id = "list"></ul>
+            </div>
+        </div>
+        <!--Import axios library-->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            // DOCUMENTATION: https://rapidapi.com/guides/how-to-get-data-from-api-javascript 
+            function weather(wind, rain, cloud){
+                let weatherIcon = '';
+                let weatherName = '';
+                switch(true){
+                    case rain < 50 && (cloud >= 30 && cloud <=70):
+                        weatherIcon = 'images/partly.png';
+                        weatherName = 'partly sunny';
+                        break;
+                   
+                    case rain < 50 && cloud >70:
+                        weatherIcon = 'images/cloudy.png';
+                        weatherName = 'cloudy';
+                        break;
+                    
+                    case rain >= 50:
+                        weatherIcon = 'images/rainy.png';
+                        weatherName = 'rainy';
+                        break;
+
+                    default:
+                        weatherIcon = 'images/sunny.png';
+                        weatherName = 'sunny';
+                        break;
+                }
+                
+                return [weatherIcon, weatherName];
+            }
+
+            function forecastWeather(forecast){
+                let weatherIcon = "";
+                switch(forecast){
+                    case "Partly cloudy":
+                        weatherIcon = 'images/partly.png';
+                        break;
+                   
+                    case "Sunny" :
+                        weatherIcon = 'images/sunny.png';
+                        break;
+                    
+                    case forecast.contains("rain"):
+                        weatherIcon = 'images/rainy.png';
+                        break;
+
+                    default:
+                        weatherIcon = 'images/sunny.png';
+                        break;
+                }
+                return weatherIcon;
+            }
+
+            async function search(){
+                let listContainer = document.getElementById('list');
+                // let listItems = document.getElementsByClassName('listItem');
+                let input = document.getElementById('searchbar').value
+                input = input.toLowerCase();
+                console.log(input);
+
+                const options = {
+                    method: 'GET',
+                    params: {
+                        q: 'london',
+                        days:'3'
+                    },
+                    headers: {
+                        'X-RapidAPI-Key': '7379de57a4msh8eba5993dd5ed39p1f66fbjsn28c26f24e158',
+                        'X-RapidAPI-Host': 'weatherapi-com.p.rapidapi.com'
+                    },
+                };
+                
+                const response = await fetch('https://weatherapi-com.p.rapidapi.com/forecast.json?q=' + input, options)
+                var data = await response.json()
+
+                // UI UPDATES
+                var city = data['location']['name'] + ', ' + data['location']['country']
+                console.log(data['location']['name']) 
+                document.getElementById("geolocation").innerHTML = city
+
+                var todayTemp = data['current']['temp_f']
+                document.getElementById("todayTemp").innerHTML = todayTemp + '\u00B0';
+
+                document.getElementById("humidity").innerHTML = data['forecast']['forecastday'][0]['day']['avghumidity'] + "%"
+                document.getElementById("feelsLike").innerHTML = data['current']['feelslike_f'] + '\u00B0';
+
+                var weather =  data['forecast']['forecastday'][0]['day']['condition']['text'];
+                forecast = forecastWeather(weather);
+                document.getElementById("temp").innerHTML = data['forecast']['forecastday'][0]['day']['condition']['text'];
+                console.log(forecast);
+                document.getElementById("tempIcon").src = forecast;
+
+                var timeDate = data['location']['localtime'];
+                console.log(timeDate);
+                var time = timeDate.substring(timeDate.length-5, timeDate.length);
+                var date = timeDate.substring(0, timeDate.length-6);
+                document.getElementById("time").innerHTML = time;
+                document.getElementById("date").innerHTML = date;
+
+
+                // .then(response => response.json())
+                // .then(response => document.getElementById('todayWdiget').innerHTML = response['current']['temp_f'])
+                // .then(response => console.log(response))
+                // .catch(err => console.error(err));
+                // listContainer.style.display = noResults ? "none": "block";
+            }
+        </script>
+        <div class = "container" id = "main-body">
+            <div class = "container" id = "location">
+                <img id = 'tag' src="images/geoTag.png"/>
+                <h2 id = "geolocation"></h2>
+            </div>
+
+            <div class = "container" id = "date-time">
+                <h3 id = "date"></h3>
+                <p>&emsp;</p>
+                <h3 id = "time"></h3>  
+
+                <script>
+                    function strDate(fullDate){
+                        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
+                        "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        let month = months[fullDate.getMonth()];
+                        let day = fullDate.getUTCDate();
+                        let year = fullDate.getUTCFullYear();
+                        return month + " " + day + ", " + year;
+                    }
+                    let d = new Date(); // this is how we declare variables in java script!
+                    console.log(d.getMonth());
+                    let date = strDate(d);
+                    console.log(date);
+                    document.getElementById("date").innerHTML = date;
+                    let time = d.toLocaleTimeString();
+                    newTime = time.substring(0,time.length-6) + " " + time.substring(time.length-2, time.length)
+                    document.getElementById("time").innerHTML = newTime;
+
+                    function updateTime(){
+                        let newTime = d.toLocaleTimeString();
+                        let times = newTime.substring(0,newTime.length-6) + " " + newTime.substring(newTime.length-2, newTime.length)
+                        document.getElementById("time").innerHTML = times;
+                    }
+
+                    setInterval(updateTime(), 100); // needs to be debugged to make time update while on application
+                </script>
+            </div>
+        </div>
+
+        <div class = "container" id = "todayWidget">
+            <h1 id = "todayTemp"></h1>
+            <!-- <button id = "indexF">F</button>
+            <button id = "indexC">C</button> -->
+            <div class = "container" id = "tempLabel">
+                <img id = "tempIcon"/>
+                <p id = "temp"></p>
+            </div>
+        </div>
+
+        <div id = "subWidgetParent">
+            <div class = "container" id = "todaySubWidget1">
+                <p>feels like</p>
+                <h3 id = "feelsLike"></h3>
+            </div>
+    
+            <div class = "container" id = "todaySubWidget2">
+                <p>humidity</p>
+                <h3 id = "humidity"></h3>
+            </div>
+        </div>
+
+    </body>
+</html>
