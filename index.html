@@ -4,18 +4,14 @@
 	<head>
         <meta charset = "UTF-8">
 		<title>Weather Forecast</title>
-		<!-- <link rel="icon" type="image/x-icon" href="images/favicon.ico" /> -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" /> 
 		<link rel="stylesheet" href="home.css" />
         <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Exo 2">
-          <!-- <script src="require.js"></script> -->
 	</head>
-    <!-- <body onload= "loadSearchData()"> -->
     <body>
 
         <div class = "container" id = "searchBarDiv">
-            <!-- <script src = "searchBar.js"></script> -->
             <div class = "form-container">
                 <form class="form">
                     <img id = 'searchicon' src="images/search.png"/>
@@ -57,7 +53,6 @@
                         weatherName = 'sunny';
                         break;
                 }
-                
                 return [weatherIcon, weatherName];
             }
 
@@ -85,7 +80,6 @@
 
             async function search(){
                 let listContainer = document.getElementById('list');
-                // let listItems = document.getElementsByClassName('listItem');
                 let input = document.getElementById('searchbar').value
                 input = input.toLowerCase();
                 console.log(input);
@@ -128,15 +122,9 @@
                 var date = timeDate.substring(0, timeDate.length-6);
                 document.getElementById("time").innerHTML = time;
                 document.getElementById("date").innerHTML = date;
-
-
-                // .then(response => response.json())
-                // .then(response => document.getElementById('todayWdiget').innerHTML = response['current']['temp_f'])
-                // .then(response => console.log(response))
-                // .catch(err => console.error(err));
-                // listContainer.style.display = noResults ? "none": "block";
             }
         </script>
+
         <div class = "container" id = "main-body">
             <div class = "container" id = "location">
                 <img id = 'tag' src="images/geoTag.png"/>
@@ -179,8 +167,6 @@
 
         <div class = "container" id = "todayWidget">
             <h1 id = "todayTemp"></h1>
-            <!-- <button id = "indexF">F</button>
-            <button id = "indexC">C</button> -->
             <div class = "container" id = "tempLabel">
                 <img id = "tempIcon"/>
                 <p id = "temp"></p>

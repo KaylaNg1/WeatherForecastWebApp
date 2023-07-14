@@ -1,12 +1,10 @@
 body{
     font-family:'Exo 2';
-    /* background-image: url("images/greenBack.jpeg"); */
     background-image: url("images/back.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
-    /* background-color:#B3C890 */
 }
 .form-container, .results-container {
     float:right;
@@ -66,12 +64,6 @@ body{
     justify-content:center;
     align-items: center;
     text-align: center;
-    /* color:rgb(0, 0, 0);
-    /* -webkit-text-stroke: 2px #000000; 
-    text-shadow: -1px 1px 0 #73A9AD,
-				  1px 1px 0 #73A9AD,
-				 1px -1px 0 #73A9AD,
-                 -1px -1px 0 #73A9AD; */
     color:rgb(255, 255, 255);
     text-shadow: -1px 1px 0 #000000,
                 1px 1px 0 #000000,
@@ -97,7 +89,6 @@ body{
 #date, #time, #date-time p {
     display: inline;
     color:rgb(0, 0, 0);
-    /* -webkit-text-stroke: 2px #000000; */
     color:rgb(255, 255, 255);
     text-shadow: -1px 1px 0 #000000,
                 1px 1px 0 #000000,
@@ -134,7 +125,6 @@ body{
     float:right;
     margin-top: -0.5vw;
     margin-bottom: 2vw;
-    /* margin-left: .25vw; */
     margin-right: 2.5vw;
     font-size: 1.5vw;
     font-weight: bold;
@@ -150,7 +140,6 @@ body{
 
 #indexF, #indexC{
     display:inline;
-    /* margin-bottom: -3vw; */
     margin-top:5vw;
     width: 2vw;
     height: 2vw;
@@ -161,10 +150,6 @@ body{
 #indexF{
 
     margin-left: 2vw;
-}
-
-#indexC{
-
 }
 
 #subWidgetParent {
